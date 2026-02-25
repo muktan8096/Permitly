@@ -1,4 +1,7 @@
 package com.example.permitly2.permitly.entity;
 
-public class Role {
+public enum Role {
+    STUDENT,
+    TEACHER,
+    ADMIN
 }
