@@ -86,12 +86,14 @@ export async function getPendingLeaveRequests() {
 
 // 5) Approve request (teacher)
 // backend must have: POST /api/leave-requests/{id}/approve
-export async function approveLeaveRequest(id) {
+export async function approveLeaveRequest(id, personaId) {
     const res = await fetch(`${API_BASE}/api/leave-requests/${id}/approve`, {
         method: "POST",
         headers: {
+            "Content-Type": "application/json",
             ...authHeader(),
         },
+        body: JSON.stringify({ teacherPersonaId: personaId })
     });
 
     const text = await res.text();
@@ -105,12 +107,14 @@ export async function approveLeaveRequest(id) {
 
 // 6) Reject request (teacher)
 // backend must have: POST /api/leave-requests/{id}/reject
-export async function rejectLeaveRequest(id) {
+export async function rejectLeaveRequest(id, personaId) {
     const res = await fetch(`${API_BASE}/api/leave-requests/${id}/reject`, {
         method: "POST",
         headers: {
+            "Content-Type": "application/json",
             ...authHeader(),
         },
+        body: JSON.stringify({ teacherPersonaId: personaId })
     });
 
     const text = await res.text();

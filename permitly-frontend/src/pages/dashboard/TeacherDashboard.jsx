@@ -98,8 +98,9 @@ export default function TeacherDashboard() {
         );
 
         try {
-            if (action === "approve") await approveLeaveRequest(id);
-            else await rejectLeaveRequest(id);
+            const personaId = localStorage.getItem("teacherPersonaId");
+            if (action === "approve") await approveLeaveRequest(id, personaId);
+            else await rejectLeaveRequest(id, personaId);
         } catch (e) {
             console.error(e);
             setPendingRequests(before);
@@ -255,8 +256,8 @@ export default function TeacherDashboard() {
                                                         disabled={isBusy}
                                                         onClick={() => decide(id, "approve")}
                                                         className={`rounded-xl px-3 py-2 text-sm font-bold transition ${isBusy
-                                                                ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
-                                                                : "bg-emerald-600 text-white hover:bg-emerald-700"
+                                                            ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
+                                                            : "bg-emerald-600 text-white hover:bg-emerald-700"
                                                             }`}
                                                     >
                                                         ✓ Approve
@@ -267,8 +268,8 @@ export default function TeacherDashboard() {
                                                         disabled={isBusy}
                                                         onClick={() => decide(id, "reject")}
                                                         className={`rounded-xl px-3 py-2 text-sm font-bold transition ${isBusy
-                                                                ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
-                                                                : "bg-white text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50"
+                                                            ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
+                                                            : "bg-white text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50"
                                                             }`}
                                                     >
                                                         ✕ Reject
