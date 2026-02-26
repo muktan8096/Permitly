@@ -19,8 +19,8 @@ function StatusPill({ status }) {
         <span
             className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold ring-1 ${styles}`}
         >
-      {s || "PENDING"}
-    </span>
+            {s || "PENDING"}
+        </span>
     );
 }
 
@@ -153,184 +153,184 @@ export default function TeacherDashboard() {
 
             {!loading && !err && pendingRequests.length > 0 && (
                 <div className="mt-5 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-slate-200/70">
-                    {/* Desktop header */}
-                    <div className="hidden lg:grid sticky top-0 z-10 grid-cols-[200px_180px_110px_140px_1fr_90px_220px] gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wide text-slate-500 bg-slate-50">
-                        <div>Student</div>
-                        <div>Company</div>
-                        <div>Date</div>
-                        <div>Time</div>
-                        <div>Reason</div>
-                        <div>Proof</div>
-                        <div className="text-right">Action</div>
-                    </div>
+                    <div className="overflow-x-auto">
+                        <div className="min-w-full lg:min-w-[1050px]">
+                            {/* Desktop header */}
+                            <div className="hidden lg:grid sticky top-0 z-10 grid-cols-[200px_180px_110px_140px_1fr_90px_220px] gap-3 px-4 py-3 text-xs font-bold uppercase tracking-wide text-slate-500 bg-slate-50 border-b border-slate-200/70">
+                                <div>Student</div>
+                                <div>Company</div>
+                                <div>Date</div>
+                                <div>Time</div>
+                                <div>Reason</div>
+                                <div>Proof</div>
+                                <div className="text-right">Action</div>
+                            </div>
 
-                    <div className="divide-y divide-slate-200/70">
-                        {pendingRequests.map((req) => {
-                            const id = req.id ?? req.requestId ?? req.leaveRequestId ?? "—";
+                            <div className="divide-y divide-slate-200/70">
+                                {pendingRequests.map((req) => {
+                                    const id = req.id ?? req.requestId ?? req.leaveRequestId ?? "—";
 
-                            const studentName =
-                                req.student_full_name ??
-                                req.studentName ??
-                                req.student?.fullName ??
-                                req.student?.full_name ??
-                                `Student #${req.student_id ?? req.studentId ?? "—"}`;
+                                    const studentName =
+                                        req.student_full_name ??
+                                        req.studentName ??
+                                        req.student?.fullName ??
+                                        req.student?.full_name ??
+                                        `Student #${req.student_id ?? req.studentId ?? "—"}`;
 
-                            const company =
-                                req.title ??
-                                req.companyName ??
-                                req.company ??
-                                req.place ??
-                                req.type ??
-                                "—";
+                                    const company =
+                                        req.title ??
+                                        req.companyName ??
+                                        req.company ??
+                                        req.place ??
+                                        req.type ??
+                                        "—";
 
-                            const reason =
-                                req.reason ??
-                                req.type ??
-                                req.note ??
-                                req.message ??
-                                "—";
+                                    const reason =
+                                        req.reason ??
+                                        req.type ??
+                                        req.note ??
+                                        req.message ??
+                                        "—";
 
-                            const date = req.date;
-                            const startTime = req.startTime ?? req.start_time ?? "—";
-                            const endTime = req.endTime ?? req.end_time ?? "—";
+                                    const date = req.date;
+                                    const startTime = req.startTime ?? req.start_time ?? "—";
+                                    const endTime = req.endTime ?? req.end_time ?? "—";
 
-                            const proofUrl =
-                                req.proofUrl ??
-                                req.proof_url ??
-                                req.proof ??
-                                req.attachmentUrl ??
-                                req.fileUrl ??
-                                null;
+                                    const proofUrl =
+                                        req.proofUrl ??
+                                        req.proof_url ??
+                                        req.proof ??
+                                        req.attachmentUrl ??
+                                        req.fileUrl ??
+                                        null;
 
-                            const status = req.status ?? "PENDING";
-                            const isBusy = busyId === id;
+                                    const status = req.status ?? "PENDING";
+                                    const isBusy = busyId === id;
 
-                            return (
-                                <div key={String(id)} className="px-4 py-3">
-                                    {/* Desktop row */}
-                                    <div className="hidden lg:grid grid-cols-[200px_180px_110px_140px_1fr_90px_220px] gap-3 items-center">
-                                        <div className="min-w-0">
-                                            <div className="font-semibold text-slate-900 truncate">{studentName}</div>
-                                            <div className="text-[11px] text-slate-500 font-mono">
-                                                #{String(id).slice(-8)}
-                                            </div>
-                                        </div>
+                                    return (
+                                        <div key={String(id)} className="px-4 py-3">
+                                            {/* Desktop row */}
+                                            <div className="hidden lg:grid grid-cols-[200px_180px_110px_140px_1fr_90px_220px] gap-3 items-center">
+                                                <div className="min-w-0">
+                                                    <div className="font-semibold text-slate-900 truncate">{studentName}</div>
+                                                    <div className="text-[11px] text-slate-500 font-mono">
+                                                        #{String(id).slice(-8)}
+                                                    </div>
+                                                </div>
 
-                                        <div className="min-w-0 text-sm text-slate-800 truncate">{company}</div>
+                                                <div className="min-w-0 text-sm text-slate-800 truncate">{company}</div>
 
-                                        <div className="text-sm text-slate-800">{formatDateOnly(date)}</div>
+                                                <div className="text-sm text-slate-800">{formatDateOnly(date)}</div>
 
-                                        <div className="text-sm text-slate-800">
-                                            {startTime && endTime ? (
-                                                <span>
-                          {startTime} <span className="text-slate-400">→</span> {endTime}
-                        </span>
-                                            ) : (
-                                                "—"
-                                            )}
-                                        </div>
+                                                <div className="text-sm text-slate-800">
+                                                    {startTime && endTime ? (
+                                                        <span>
+                                                            {startTime} <span className="text-slate-400">→</span> {endTime}
+                                                        </span>
+                                                    ) : (
+                                                        "—"
+                                                    )}
+                                                </div>
 
-                                        <div className="min-w-0 text-sm text-slate-700 truncate">{reason}</div>
+                                                <div className="min-w-0 text-sm text-slate-700 truncate">{reason}</div>
 
-                                        <div>
-                                            {proofUrl ? (
-                                                <a
-                                                    href={toAbsoluteUrl(proofUrl)}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="text-sm font-semibold text-blue-700 hover:underline"
-                                                >
-                                                    View
-                                                </a>
-                                            ) : (
-                                                <span className="text-sm text-slate-400">—</span>
-                                            )}
-                                        </div>
+                                                <div>
+                                                    {proofUrl ? (
+                                                        <a
+                                                            href={toAbsoluteUrl(proofUrl)}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="text-sm font-semibold text-blue-700 hover:underline"
+                                                        >
+                                                            View
+                                                        </a>
+                                                    ) : (
+                                                        <span className="text-sm text-slate-400">—</span>
+                                                    )}
+                                                </div>
 
-                                        <div className="flex justify-end gap-2">
-                                            <button
-                                                type="button"
-                                                disabled={isBusy}
-                                                onClick={() => decide(id, "approve")}
-                                                className={`rounded-xl px-3 py-2 text-sm font-bold transition ${
-                                                    isBusy
-                                                        ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
-                                                        : "bg-emerald-600 text-white hover:bg-emerald-700"
-                                                }`}
-                                            >
-                                                ✓ Approve
-                                            </button>
+                                                <div className="flex justify-end gap-2">
+                                                    <button
+                                                        type="button"
+                                                        disabled={isBusy}
+                                                        onClick={() => decide(id, "approve")}
+                                                        className={`rounded-xl px-3 py-2 text-sm font-bold transition ${isBusy
+                                                                ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
+                                                                : "bg-emerald-600 text-white hover:bg-emerald-700"
+                                                            }`}
+                                                    >
+                                                        ✓ Approve
+                                                    </button>
 
-                                            <button
-                                                type="button"
-                                                disabled={isBusy}
-                                                onClick={() => decide(id, "reject")}
-                                                className={`rounded-xl px-3 py-2 text-sm font-bold transition ${
-                                                    isBusy
-                                                        ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
-                                                        : "bg-white text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50"
-                                                }`}
-                                            >
-                                                ✕ Reject
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* ✅ Mobile row — compact list + dot */}
-                                    <div className="lg:hidden border-b border-slate-200 py-2">
-                                        <div className="flex items-center justify-between">
-                                            <div className="flex items-center gap-2 min-w-0">
-                                                <StatusDot status={status} />
-                                                <div className="font-semibold text-sm truncate">{studentName}</div>
+                                                    <button
+                                                        type="button"
+                                                        disabled={isBusy}
+                                                        onClick={() => decide(id, "reject")}
+                                                        className={`rounded-xl px-3 py-2 text-sm font-bold transition ${isBusy
+                                                                ? "bg-slate-100 text-slate-400 ring-1 ring-slate-200"
+                                                                : "bg-white text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50"
+                                                            }`}
+                                                    >
+                                                        ✕ Reject
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            {/* Keep pill off mobile to save space */}
+                                            {/* ✅ Mobile row — compact list + dot */}
+                                            <div className="lg:hidden border-b border-slate-200 py-2">
+                                                <div className="flex items-center justify-between">
+                                                    <div className="flex items-center gap-2 min-w-0">
+                                                        <StatusDot status={status} />
+                                                        <div className="font-semibold text-sm truncate">{studentName}</div>
+                                                    </div>
+
+                                                    {/* Keep pill off mobile to save space */}
+                                                </div>
+
+                                                <div className="text-sm text-slate-700 truncate mt-1">{company}</div>
+
+                                                <div className="text-xs text-slate-500 mt-1">
+                                                    {formatDateOnly(date)} • {startTime} → {endTime}
+                                                </div>
+
+                                                <div className="mt-2 flex items-center gap-4 text-xs">
+                                                    {proofUrl && (
+                                                        <a
+                                                            href={toAbsoluteUrl(proofUrl)}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="text-blue-600 font-semibold"
+                                                        >
+                                                            Proof
+                                                        </a>
+                                                    )}
+
+                                                    <button
+                                                        type="button"
+                                                        disabled={isBusy}
+                                                        onClick={() => decide(id, "approve")}
+                                                        className={`font-bold ${isBusy ? "text-slate-400" : "text-emerald-600"
+                                                            }`}
+                                                    >
+                                                        Approve
+                                                    </button>
+
+                                                    <button
+                                                        type="button"
+                                                        disabled={isBusy}
+                                                        onClick={() => decide(id, "reject")}
+                                                        className={`font-bold ${isBusy ? "text-slate-400" : "text-red-600"
+                                                            }`}
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div className="text-sm text-slate-700 truncate mt-1">{company}</div>
-
-                                        <div className="text-xs text-slate-500 mt-1">
-                                            {formatDateOnly(date)} • {startTime} → {endTime}
-                                        </div>
-
-                                        <div className="mt-2 flex items-center gap-4 text-xs">
-                                            {proofUrl && (
-                                                <a
-                                                    href={toAbsoluteUrl(proofUrl)}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                    className="text-blue-600 font-semibold"
-                                                >
-                                                    Proof
-                                                </a>
-                                            )}
-
-                                            <button
-                                                type="button"
-                                                disabled={isBusy}
-                                                onClick={() => decide(id, "approve")}
-                                                className={`font-bold ${
-                                                    isBusy ? "text-slate-400" : "text-emerald-600"
-                                                }`}
-                                            >
-                                                Approve
-                                            </button>
-
-                                            <button
-                                                type="button"
-                                                disabled={isBusy}
-                                                onClick={() => decide(id, "reject")}
-                                                className={`font-bold ${
-                                                    isBusy ? "text-slate-400" : "text-red-600"
-                                                }`}
-                                            >
-                                                Reject
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,6 +1,52 @@
 import { useState } from "react";
 import { createLeaveRequest, uploadProof } from "../../api/leaverequest";
 
+// Compress image utility to bypass Nginx 1MB limit cleanly
+const compressImage = (file, maxDim = 1024, quality = 0.7) => {
+    return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith("image/")) {
+            resolve(file);
+            return;
+        }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                let { width, height } = img;
+                if (width > maxDim || height > maxDim) {
+                    if (width > height) {
+                        height = Math.round((height * maxDim) / width);
+                        width = maxDim;
+                    } else {
+                        width = Math.round((width * maxDim) / height);
+                        height = maxDim;
+                    }
+                }
+                const canvas = document.createElement("canvas");
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, width, height);
+                canvas.toBlob(
+                    (blob) => {
+                        if (!blob) return reject(new Error("Canvas error"));
+                        resolve(new File([blob], file.name, {
+                            type: file.type,
+                            lastModified: Date.now(),
+                        }));
+                    },
+                    file.type,
+                    quality
+                );
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+};
+
 export default function LeaveRequest() {
     // form
     const [title, setTitle] = useState("");
@@ -31,6 +77,9 @@ export default function LeaveRequest() {
 
         setSubmitting(true);
         try {
+            // Compress the proof file before sending to bypass Nginx 1MB limitation
+            const compressedProof = await compressImage(proofFile);
+
             const created = await createLeaveRequest({
                 title,
                 type,
@@ -39,7 +88,7 @@ export default function LeaveRequest() {
                 endTime,
             });
 
-            await uploadProof(created.id, proofFile);
+            await uploadProof(created.id, compressedProof);
 
             setMsg("Submitted successfully ✅");
 
@@ -161,11 +210,10 @@ export default function LeaveRequest() {
                         <div className="pt-1">
                             <button
                                 disabled={submitting}
-                                className={`w-full sm:w-auto rounded-xl px-5 py-3 text-sm font-semibold ${
-                                    submitting
+                                className={`w-full sm:w-auto rounded-xl px-5 py-3 text-sm font-semibold ${submitting
                                         ? "bg-slate-200 text-slate-500"
                                         : "bg-slate-900 text-white hover:bg-slate-800"
-                                }`}
+                                    }`}
                             >
                                 {submitting ? "Submitting..." : "Submit"}
                             </button>
