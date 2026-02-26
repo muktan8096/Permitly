@@ -1,4 +1,4 @@
-import { Link, Outlet, NavLink } from "react-router-dom";
+import { Link, Outlet, NavLink, useNavigate } from "react-router-dom";
 import {
     ClipboardList,
     CalendarCheck,
@@ -7,11 +7,14 @@ import {
     Settings,
     Menu,
     X,
+    LogOut,
+    ArrowLeft,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getUnreadCount } from "../api/notification";
 
 export default function DashboardLayout() {
+    const navigate = useNavigate();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
 
@@ -52,7 +55,16 @@ export default function DashboardLayout() {
         setUnreadCount((c) => Math.max(0, c - by));
     }
 
-    const Sidebar = () => (
+    const logout = () => {
+        localStorage.clear();
+        navigate("/login");
+    };
+
+    const goBack = () => {
+        navigate(-1);
+    };
+
+    const renderSidebar = () => (
         <aside className="w-64 p-4 border-r border-slate-200 bg-white min-h-[calc(100vh-64px)]">
             <div className="mb-5 text-[12px] sm:text-xs text-slate-700">
                 <span className="text-slate-500">Logged in as:</span>{" "}
@@ -81,8 +93,8 @@ export default function DashboardLayout() {
                             className="ml-2 inline-flex items-center justify-center min-w-[20px] h-5 px-2 text-[11px] font-bold text-white rounded-full"
                             style={{ backgroundColor: theme.primary }}
                         >
-              {unreadCount}
-            </span>
+                            {unreadCount}
+                        </span>
                     )}
                 </NavLink>
 
@@ -156,6 +168,15 @@ export default function DashboardLayout() {
                     >
                         <Menu size={18} />
                     </button>
+
+                    <button
+                        onClick={goBack}
+                        className="rounded-xl border border-slate-200 bg-white p-2 hover:bg-slate-50 flex items-center gap-2 text-sm font-semibold text-slate-700 shadow-sm transition-all"
+                        title="Go Back"
+                    >
+                        <ArrowLeft size={18} />
+                        <span className="hidden sm:inline">Back</span>
+                    </button>
                 </div>
 
                 {/* ✅ CENTERED LOGO (no box, no border) */}
@@ -173,6 +194,7 @@ export default function DashboardLayout() {
                         to="/dashboard/profile"
                         className="rounded-xl border border-slate-200 bg-white p-2 hover:bg-slate-50"
                         style={{ boxShadow: "0 6px 18px rgba(148,78,99,0.10)" }}
+                        title="Profile"
                     >
                         <User size={18} className="text-slate-700" />
                     </Link>
@@ -181,9 +203,20 @@ export default function DashboardLayout() {
                         to="/dashboard/settings"
                         className="rounded-xl border border-slate-200 bg-white p-2 hover:bg-slate-50"
                         style={{ boxShadow: "0 6px 18px rgba(148,78,99,0.10)" }}
+                        title="Settings"
                     >
                         <Settings size={18} className="text-slate-700" />
                     </Link>
+
+                    <button
+                        onClick={logout}
+                        className="rounded-xl border border-transparent p-2 text-white shadow-sm flex items-center gap-2 hover:opacity-90 transition lg:ml-2"
+                        style={{ backgroundColor: theme.primary }}
+                        title="Logout"
+                    >
+                        <LogOut size={18} />
+                        <span className="hidden sm:inline font-semibold text-sm">Logout</span>
+                    </button>
                 </div>
             </div>
 
@@ -205,7 +238,7 @@ export default function DashboardLayout() {
                                 <X size={18} />
                             </button>
                         </div>
-                        <Sidebar />
+                        {renderSidebar()}
                     </div>
                 </div>
             )}
@@ -213,7 +246,7 @@ export default function DashboardLayout() {
             {/* Layout */}
             <div className="flex">
                 <div className="hidden sm:block">
-                    <Sidebar />
+                    {renderSidebar()}
                 </div>
 
                 <main className="flex-1 p-4 sm:p-6">

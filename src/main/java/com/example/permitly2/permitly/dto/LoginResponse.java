@@ -9,5 +9,6 @@ import lombok.Data;
 public class LoginResponse {
     private String token;
     private boolean mustChangePassword;
-    private Role role;   // ✅ add this
+    private Role role;
+    private String fullName;
 }

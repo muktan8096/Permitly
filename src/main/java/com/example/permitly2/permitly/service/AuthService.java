@@ -62,7 +62,8 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
         boolean match = passwordEncoder.matches(req.getPassword(), user.getPasswordHash());
-        if (!match) throw new RuntimeException("Invalid email or password");
+        if (!match)
+            throw new RuntimeException("Invalid email or password");
 
         String jwtToken = jwtUtil.generateToken(user.getEmail());
 
@@ -70,8 +71,8 @@ public class AuthService {
         return new LoginResponse(
                 jwtToken,
                 user.isMustChangePassword(),
-                user.getRole()   // ✅ send role back
-        );
+                user.getRole(), // ✅ send role back
+                user.getFullName());
     }
 
     // ===============================

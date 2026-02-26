@@ -16,6 +16,7 @@ export default function Login() {
 
     const [loading, setLoading] = useState(false);
     const [err, setErr] = useState("");
+    const [showSuccessGif, setShowSuccessGif] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -49,6 +50,9 @@ export default function Login() {
 
             localStorage.setItem("token", data.token);
             localStorage.setItem("permitly_email", payload.email);
+            if (data.fullName) {
+                localStorage.setItem("fullName", data.fullName);
+            }
             localStorage.setItem(
                 "mustChangePassword",
                 String(!!data.mustChangePassword)
@@ -59,12 +63,17 @@ export default function Login() {
                 return;
             }
 
-            if (data?.role === "TEACHER") {
-                navigate("/teacher/select-persona");
-                return;
-            }
+            // Show GIF loading screen
+            setShowSuccessGif(true);
 
-            navigate("/dashboard");
+            setTimeout(() => {
+                if (data?.role === "TEACHER") {
+                    navigate("/teacher/select-persona");
+                } else {
+                    navigate("/dashboard");
+                }
+            }, 2500); // Wait 2.5 seconds to show the GIF
+
         } catch (error) {
             setErr(error.message || "Login failed");
         } finally {
@@ -86,6 +95,19 @@ export default function Login() {
     };
 
     const theme = isTeacherMode ? teacher : student;
+
+    // Loading overlay
+    if (showSuccessGif) {
+        return (
+            <div className={`min-h-[100dvh] flex flex-col items-center justify-center px-4 bg-white`}>
+                <img
+                    src="/gif/permitly.gif"
+                    alt="Loading..."
+                    className="w-64 h-auto object-contain"
+                />
+            </div>
+        );
+    }
 
     return (
         <div

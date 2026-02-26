@@ -13,6 +13,7 @@ C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permit
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\dto\LoginResponse.java
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\dto\RegisterRequest.java
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\dto\TeacherDecisionHistoryDTO.java
+C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\dto\TeacherDecisionRequest.java
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\dto\TeacherPendingLeaveDTO.java
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\entity\LeaveRequest.java
 C:\Users\evanh\IdeaProjects\Permitly2\src\main\java\com\example\permitly2\permitly\entity\LeaveStatus.java

@@ -2,6 +2,7 @@ com\example\permitly2\permitly\entity\Role.class
 com\example\permitly2\permitly\entity\TeacherPersona$TeacherPersonaBuilder.class
 com\example\permitly2\permitly\config\StaticResourceConfig.class
 com\example\permitly2\permitly\controller\LeaveRequestController.class
+com\example\permitly2\permitly\controller\TestController.class
 com\example\permitly2\permitly\dto\LoginResponse.class
 com\example\permitly2\permitly\PermitlyApplication.class
 com\example\permitly2\permitly\repository\NotificationRepository.class
@@ -28,6 +29,7 @@ com\example\permitly2\permitly\service\NotificationService.class
 com\example\permitly2\permitly\repository\LeaveRequestRepository.class
 com\example\permitly2\permitly\repository\TeacherPersonaRepository.class
 com\example\permitly2\permitly\controller\NotificationController.class
+com\example\permitly2\permitly\dto\TeacherDecisionRequest.class
 com\example\permitly2\permitly\entity\Notification$NotificationBuilder.class
 com\example\permitly2\permitly\dto\LoginRequest.class
 com\example\permitly2\permitly\entity\NotificationType.class
