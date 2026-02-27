@@ -14,6 +14,7 @@ export default function Attendance() {
     // edit modal state
     const [editOpen, setEditOpen] = useState(false);
     const [editItem, setEditItem] = useState(null);
+    const [proofViewerUrl, setProofViewerUrl] = useState(null);
 
     // edit form fields
     const [title, setTitle] = useState("");
@@ -204,14 +205,13 @@ export default function Attendance() {
                                                     )}
 
                                                 {r.proofUrl && (
-                                                    <a
-                                                        className="inline-block mt-2 text-xs sm:text-sm font-medium text-blue-700 hover:underline"
-                                                        href={`${import.meta.env.VITE_API_BASE_URL}${r.proofUrl}`}
-                                                        target="_blank"
-                                                        rel="noreferrer"
+                                                    <button
+                                                        type="button"
+                                                        className="inline-block mt-2 text-xs sm:text-sm font-medium text-blue-700 hover:underline text-left"
+                                                        onClick={() => setProofViewerUrl(`${import.meta.env.VITE_API_BASE_URL}${r.proofUrl}`)}
                                                     >
                                                         View proof 📎
-                                                    </a>
+                                                    </button>
                                                 )}
                                             </div>
 
@@ -330,11 +330,10 @@ export default function Attendance() {
                                         Cancel
                                     </button>
                                     <button
-                                        className={`rounded-xl px-4 py-2 text-sm font-semibold ${
-                                            busyId === editItem.id
+                                        className={`rounded-xl px-4 py-2 text-sm font-semibold ${busyId === editItem.id
                                                 ? "bg-slate-200 text-slate-500"
                                                 : "bg-slate-900 text-white hover:bg-slate-800"
-                                        }`}
+                                            }`}
                                         onClick={handleSave}
                                         disabled={busyId === editItem.id}
                                     >
@@ -346,6 +345,28 @@ export default function Attendance() {
                                     You can only edit while status is <b>PENDING</b>.
                                 </p>
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Proof Viewer Modal */}
+                {proofViewerUrl && (
+                    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setProofViewerUrl(null)} />
+                        <div className="relative w-full max-w-4xl flex flex-col items-center">
+                            <div className="w-full flex justify-end mb-3">
+                                <button
+                                    onClick={() => setProofViewerUrl(null)}
+                                    className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 backdrop-blur-md transition-all flex items-center gap-2"
+                                >
+                                    ✕ Close Proof
+                                </button>
+                            </div>
+                            <img
+                                src={proofViewerUrl}
+                                alt="Proof"
+                                className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl ring-1 ring-white/10"
+                            />
                         </div>
                     </div>
                 )}

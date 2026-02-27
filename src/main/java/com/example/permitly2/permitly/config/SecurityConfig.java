@@ -1,6 +1,5 @@
 package com.example.permitly2.permitly.config;
 
-
 import com.example.permitly2.permitly.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +32,6 @@ public class SecurityConfig {
 
     // ✅ load user by email from DB (needed for JWT auth)
 
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -58,9 +56,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/uploads/**", "/teachers/**").permitAll()
                         .requestMatchers("/error").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 // ✅ THIS is what makes Bearer token work
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -54,6 +54,7 @@ export default function TeacherDashboard() {
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
     const [busyId, setBusyId] = useState(null);
+    const [proofViewerUrl, setProofViewerUrl] = useState(null);
 
     const API = import.meta.env.VITE_API_BASE_URL;
 
@@ -237,14 +238,13 @@ export default function TeacherDashboard() {
 
                                                 <div>
                                                     {proofUrl ? (
-                                                        <a
-                                                            href={toAbsoluteUrl(proofUrl)}
-                                                            target="_blank"
-                                                            rel="noreferrer"
+                                                        <button
+                                                            type="button"
                                                             className="text-sm font-semibold text-blue-700 hover:underline"
+                                                            onClick={() => setProofViewerUrl(toAbsoluteUrl(proofUrl))}
                                                         >
                                                             View
-                                                        </a>
+                                                        </button>
                                                     ) : (
                                                         <span className="text-sm text-slate-400">—</span>
                                                     )}
@@ -296,14 +296,13 @@ export default function TeacherDashboard() {
 
                                                 <div className="mt-2 flex items-center gap-4 text-xs">
                                                     {proofUrl && (
-                                                        <a
-                                                            href={toAbsoluteUrl(proofUrl)}
-                                                            target="_blank"
-                                                            rel="noreferrer"
+                                                        <button
+                                                            type="button"
                                                             className="text-blue-600 font-semibold"
+                                                            onClick={() => setProofViewerUrl(toAbsoluteUrl(proofUrl))}
                                                         >
                                                             Proof
-                                                        </a>
+                                                        </button>
                                                     )}
 
                                                     <button
@@ -332,6 +331,28 @@ export default function TeacherDashboard() {
                                 })}
                             </div>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Proof Viewer Modal */}
+            {proofViewerUrl && (
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setProofViewerUrl(null)} />
+                    <div className="relative w-full max-w-4xl flex flex-col items-center">
+                        <div className="w-full flex justify-end mb-3">
+                            <button
+                                onClick={() => setProofViewerUrl(null)}
+                                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold text-white hover:bg-white/20 backdrop-blur-md transition-all flex items-center gap-2"
+                            >
+                                ✕ Close Proof
+                            </button>
+                        </div>
+                        <img
+                            src={proofViewerUrl}
+                            alt="Proof"
+                            className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl ring-1 ring-white/10"
+                        />
                     </div>
                 </div>
             )}
